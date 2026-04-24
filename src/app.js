@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const taskRoutes = require('./routes/taskRoutes');
+const globalErrorHandler = require('./middlewares/errorMiddleware');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -21,6 +22,9 @@ app.get('/health', (req, res) => {
 
 // Mount the router
 app.use('/api/tasks', taskRoutes);
+
+// Global Error Handling Middleware (must be after all routes)
+app.use(globalErrorHandler);
 
 const PORT = process.env.PORT || 3000;
 
